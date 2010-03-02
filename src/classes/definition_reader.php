@@ -1,0 +1,73 @@
+<?php
+/**
+ * wsgen definition reader interface
+ *
+ * This file is part of wsgen.
+ *
+ * wsgen is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3 of the License.
+ *
+ * wsgen is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with wsgen; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+namespace org\westhoffswelt\wsgen;
+
+/**
+ * Abstract interface every definition reader has to implement. 
+ * 
+ * Definition readers are like configuration readers. They read some sort of
+ * definition file, which contains information which css definitions should be
+ * associated with which images later after the process has finished.
+ * 
+ * Therefore definition readers are supposed to provide a mapping between image
+ * filepaths and css definitions. One image may be mapped to multiple css
+ * definitions.
+ */
+abstract class DefinitionReader 
+{
+    /**
+     * Filepath to the definition to read 
+     * 
+     * @var string
+     */
+    protected $inputFile;
+
+    /**
+     * Constructor taking the definition filepath to read as an argument. 
+     * 
+     * @param string $definition 
+     */
+    public function __construct( $definition ) 
+    {
+        $this->inputFile = $definition;
+    }
+
+    /**
+     * Provide the mapping table between images and css definitions 
+     *
+     * A mapping table is supposed to be of the following format:
+     * <code>
+     *   array( 
+     *     'image/file/1.png' => array( 
+     *        '#css .rule',
+     *        '#optionally another.css:rule',
+     *        ...
+     *     ),
+     *     ...
+     *   )
+     * </code>
+     *
+     * The css rule names are supposed to be valid css identifiers, they will
+     * directly used to be written out as css later on in the process.
+     * 
+     * @return array
+     */
+    public abstract function getMappingTable();
+}
