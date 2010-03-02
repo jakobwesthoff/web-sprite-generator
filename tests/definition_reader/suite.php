@@ -17,35 +17,25 @@
  * along with wsgen; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-namespace org\westhoffswelt\wsgen\tests;
-
-/**
- * Include the basic testcase environment
- */
-include( __DIR__ . '/../src/config/config.php' );
-
-/**
- * Load the phpt test extension 
- */
-// include( 'PHPUnit/Extensions/PhptTestSuite.php' );
+namespace org\westhoffswelt\wsgen\tests\DefinitionReader;
 
 /**
  * Include all the needed test files/suites
  */
-include( __DIR__ . '/definition_reader/suite.php' );
+include( __DIR__ . '/basic_array.php' );
 
-class WSGenSuite extends \PHPUnit_Framework_TestSuite 
+class DefinitionReaderSuite extends \PHPUnit_Framework_TestSuite 
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setName( 'WSGen' );
+        $this->setName( 'DefinitionReader' );
 
-        $this->addTest( DefinitionReader\DefinitionReaderSuite::suite() );        
+        $this->addTest( BasicArray::suite() );        
     }
 
     public static function suite() 
     {
-        return new WSGenSuite( __CLASS__ );
+        return new DefinitionReaderSuite( __CLASS__ );
     }
 }

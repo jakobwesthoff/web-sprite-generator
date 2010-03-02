@@ -55,7 +55,7 @@ class BasicArray
      */
     public function getMappingTable() 
     {
-        if ( $this->mapping === null ) 
+        if ( $this->definition === null ) 
         {
             $this->definition = $this->readFile( $this->inputFile );
         }
