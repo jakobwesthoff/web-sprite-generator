@@ -80,7 +80,8 @@ class GD
             IMAGETYPE_XBM  => 'imagecreatefromwxb',
         );
 
-        if ( ( $info = getimagesize( $image ) ) === false ) 
+        // There is no other way to silence gd
+        if ( ( $info = @getimagesize( $image ) ) === false ) 
         {
             throw new \RuntimeException( "The image format of '$image' could not be identified." );
         }
@@ -111,7 +112,8 @@ class GD
      */
     public function retrieveResolution( $file ) 
     {
-        $info = getimagesize( $file );
+        // GD can not be silenced in any other way
+        $info = @getimagesize( $file );
         if ( $info === false ) 
         {
             throw new \RuntimeException( "The resolution of the given image '$file' could not be determined." );

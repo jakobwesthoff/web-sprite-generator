@@ -125,4 +125,32 @@ class GD extends \PHPUnit_Framework_TestCase
             $this->tmp
         );
     }
+
+    public function testRetrieveResolutionFromNonExistentFile() 
+    {
+        $renderer = $this->rendererFixture();
+
+        $this->setExpectedException( '\\RuntimeException' );
+
+        $renderer->retrieveResolution('some/non/existent/file' );
+    }
+
+    public function testDrawNonExistentImageFile() 
+    {
+        $renderer = $this->rendererFixture();
+        $renderer->init( 64, 64, array( 0, 0, 0, 0 ) );
+
+        $this->setExpectedException( '\\RuntimeException' );
+        
+        $renderer->drawImage( 'some/non/existent/file', 0, 0 );
+    }
+
+    public function testNonExistentBackgroundColor() 
+    {
+        $renderer = $this->rendererFixture();
+        
+        $this->setExpectedException( '\\RuntimeException' );
+      
+        $renderer->init( 64, 64, array( 423, 423, 423, 235 ) );
+    }
 }
