@@ -52,7 +52,7 @@ class GD
         $b = round( $color[2] * 255 );
         $a = round( ( 1.0 - $color[3] ) * 127 );
 
-        if ( ( $color = imagecolorallocatealpha( $r, $g, $b, $a ) ) === false ) 
+        if ( ( $color = imagecolorallocatealpha( $image, $r, $g, $b, $a ) ) === false ) 
         {
             throw new \RuntimeException( "GD color allocation failed." );
         }
@@ -65,7 +65,7 @@ class GD
      * 
      * The image format is identified automatically. If the image format could
      * not be loaded a RuntimeException is thrown.
-     * 
+     *
      * @param string $image 
      * @return resource
      * @throws RuntimeException if the given image could not be loaded.
@@ -147,7 +147,7 @@ class GD
         }
 
         // Ensure a true alpha channel is stored
-        imagealphablending( $this->image, false );
+        imagealphablending( $this->image, true );
         imagesavealpha( $this->image, true );
 
         $bg = $this->allocateColor( $this->image, $background );
