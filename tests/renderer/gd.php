@@ -111,4 +111,18 @@ class GD extends \PHPUnit_Framework_TestCase
             $this->tmp
         );
     }
+
+    public function testDrawImageSemiTransparent() 
+    {
+        $renderer = $this->rendererFixture();
+        $renderer->init( 128, 64, array( 0, 1, 0, .5 ) );
+        $renderer->drawImage( __DIR__ . '/data/alpha_image.png', 0, 0 );
+        $renderer->drawImage( __DIR__ . '/data/alpha_image.png', 64, 0 );
+        $renderer->finish();
+
+        $this->assertFileEquals( 
+            __DIR__ . '/data/gd_result_semi_horizontal.png',
+            $this->tmp
+        );
+    }
 }
