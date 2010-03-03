@@ -17,41 +17,25 @@
  * along with wsgen; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-namespace org\westhoffswelt\wsgen\tests;
-
-/**
- * Include the basic testcase environment
- */
-include( __DIR__ . '/../src/config/config.php' );
-
-/**
- * Load the phpt test extension 
- */
-// include( 'PHPUnit/Extensions/PhptTestSuite.php' );
+namespace org\westhoffswelt\wsgen\tests\DefinitionWriter;
 
 /**
  * Include all the needed test files/suites
  */
-include( __DIR__ . '/definition_reader/suite.php' );
-include( __DIR__ . '/renderer/suite.php' );
-include( __DIR__ . '/layout_manager/suite.php' );
-include( __DIR__ . '/definition_writer/suite.php' );
+include( __DIR__ . '/css_background.php' );
 
-class WSGenSuite extends \PHPUnit_Framework_TestSuite 
+class DefinitionWriterSuite extends \PHPUnit_Framework_TestSuite 
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setName( 'WSGen' );
+        $this->setName( 'DefinitionWriter' );
 
-        $this->addTest( DefinitionReader\DefinitionReaderSuite::suite() );        
-        $this->addTest( Renderer\RendererSuite::suite() );        
-        $this->addTest( LayoutManager\LayoutManagerSuite::suite() );        
-        $this->addTest( DefinitionWriter\DefinitionWriterSuite::suite() );        
+        $this->addTest( CssBackground::suite() );        
     }
 
     public static function suite() 
     {
-        return new WSGenSuite( __CLASS__ );
+        return new DefinitionWriterSuite( __CLASS__ );
     }
 }
