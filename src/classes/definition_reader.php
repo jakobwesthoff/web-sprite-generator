@@ -64,8 +64,10 @@ abstract class DefinitionReader
      *   )
      * </code>
      *
-     * The css rule names are supposed to be valid css identifiers, they will
-     * directly used to be written out as css later on in the process.
+     * The css rules are only examples. Actually they represent arbitrary
+     * string identifiers. However if a css based definition writer is used later
+     * on the identifiers should be valid css rules for it to output correct css
+     * definitions.
      * 
      * @return array
      */
