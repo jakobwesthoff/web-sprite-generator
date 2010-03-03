@@ -32,6 +32,23 @@ namespace org\westhoffswelt\wsgen;
 abstract class LayoutManager 
 {
     /**
+     * Renderer used to determine image sizes for layouting. 
+     * 
+     * @var Renderer;
+     */
+    protected $renderer;
+
+    /**
+     * Constructor taking the render to be used as argument.
+     * 
+     * @param Renderer $renderer 
+     */
+    public function __construct( $renderer ) 
+    {
+        $this->renderer = $renderer;
+    }
+
+    /**
      * Initialize the layouting process
      * 
      * This function is called before any other layouting function is called.
@@ -45,6 +62,10 @@ abstract class LayoutManager
      * 
      * No action at all needs to be taken at this point. It only has to be made
      * sure that the given image is available in the final sprite image.
+     *
+     * This method may be called more than once with the same imagepath. The
+     * layout manager should take care of this to ensure every image is only
+     * rendered once.
      * 
      * @param string $image 
      * @return void
@@ -53,6 +74,9 @@ abstract class LayoutManager
 
     /**
      * Finish the layouting process and return a image-layout-mapping. 
+     *
+     * After this method has been called it is assumed that the render has
+     * completed its rendercycle and the output spriteimage has been written.
      *
      * The layout-mapping to be returned is supposed to have the following
      * structure:
