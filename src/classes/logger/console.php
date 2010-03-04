@@ -85,30 +85,30 @@ class Console
      */
     protected function logFormattedMessage( $serverity, $message ) 
     {
+        $line = "";
+
         if ( $this->timestamp ) 
         {
             $date = new \DateTime();
-            fwrite( 
-                $this->outputHandle,
-                $date->format( '[Y-m-d][H:i:s]' )
-            );
+            $line .= $date->format( '[Y-m-d][H:i:s]' );
         }
 
-        fwrite( 
-            $this->outputHandle,
-            '[' . $this->serverityMapping[$serverity] . '] '
-        );
+        $line .= '[' . $this->serverityMapping[$serverity] . '] ' . $message;
 
-        fwrite( 
-            $this->outputHandle,
-            $message
-        );
+        $this->writeToConsole( $this->outputHandle, $line );
+    }
 
-        fwrite( 
-            $this->outputHandle,
-            "\n"
-        );
-
-        fflush( $this->outputHandle );
+    /**
+     * Write message to the output console stream and flush it afterwards.
+     *
+     * A newline character is automatically prepended to the message
+     * 
+     * @param int $handle 
+     * @param string $message 
+     */
+    protected function writeToConsole( $handle, $message ) 
+    {
+        fwrite( $handle, $message . "\n" );
+        fflush( $handle );
     }
 }

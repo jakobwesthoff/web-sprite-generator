@@ -23,6 +23,7 @@ namespace org\westhoffswelt\wsgen\tests\Logger;
  * Include all the needed test files/suites
  */
 include( __DIR__ . '/logger.php' );
+include( __DIR__ . '/console.php' );
 
 class LoggerSuite extends \PHPUnit_Framework_TestSuite 
 {
@@ -32,6 +33,7 @@ class LoggerSuite extends \PHPUnit_Framework_TestSuite
         $this->setName( 'Logger' );
 
         $this->addTest( Logger::suite() );        
+        $this->addTest( Console::suite() );        
     }
 
     public static function suite() 
