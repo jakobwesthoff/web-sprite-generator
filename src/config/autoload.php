@@ -10,4 +10,5 @@ return array(
     $namespace . '\\LayoutManager\\Vertical'         => 'classes/layout_manager/vertical.php',
     $namespace . '\\DefinitionWriter'                => 'classes/definition_writer.php',
     $namespace . '\\DefinitionWriter\\CssBackground' => 'classes/definition_writer/css_background.php',
+    $namespace . '\\Logger'                          => 'classes/logger.php',
 );

@@ -36,6 +36,7 @@ include( __DIR__ . '/definition_reader/suite.php' );
 include( __DIR__ . '/renderer/suite.php' );
 include( __DIR__ . '/layout_manager/suite.php' );
 include( __DIR__ . '/definition_writer/suite.php' );
+include( __DIR__ . '/logger/suite.php' );
 
 class WSGenSuite extends \PHPUnit_Framework_TestSuite 
 {
@@ -48,6 +49,7 @@ class WSGenSuite extends \PHPUnit_Framework_TestSuite
         $this->addTest( Renderer\RendererSuite::suite() );        
         $this->addTest( LayoutManager\LayoutManagerSuite::suite() );        
         $this->addTest( DefinitionWriter\DefinitionWriterSuite::suite() );        
+        $this->addTest( Logger\LoggerSuite::suite() );        
     }
 
     public static function suite() 
