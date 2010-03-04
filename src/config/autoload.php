@@ -11,4 +11,5 @@ return array(
     $namespace . '\\DefinitionWriter'                => 'classes/definition_writer.php',
     $namespace . '\\DefinitionWriter\\CssBackground' => 'classes/definition_writer/css_background.php',
     $namespace . '\\Logger'                          => 'classes/logger.php',
+    $namespace . '\\Logger\\Console'                 => 'classes/logger/console.php',
 );
