@@ -44,7 +44,12 @@ class GD extends \PHPUnit_Framework_TestCase
 
     protected function rendererFixture() 
     {
+        $logger = $this->getMockForAbstractClass( 
+            'org\\westhoffswelt\\wsgen\\Logger'
+        );
+
         return new wsgen\Renderer\GD( 
+            $logger,
             $this->tmp
         );
     }

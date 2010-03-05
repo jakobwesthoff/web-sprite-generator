@@ -49,7 +49,12 @@ class CssBackground extends \PHPUnit_Framework_TestCase
             $file = $this->tmp;
         }
 
+        $logger = $this->getMockForAbstractClass( 
+            'org\\westhoffswelt\\wsgen\\Logger'
+        );
+
         return new wsgen\DefinitionWriter\CssBackground( 
+            $logger,
             $file,
             $removalPrefix,
             $additionPrefix

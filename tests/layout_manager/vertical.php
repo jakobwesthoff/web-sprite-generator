@@ -32,7 +32,11 @@ class Vertical extends \PHPUnit_Framework_TestCase
 
     protected function rendererMock( $width, $height, $images ) 
     {
-        $m = $this->getMockForAbstractClass( '\\org\\westhoffswelt\\wsgen\\Renderer', array( 'foobar.png' ) );
+        $logger = $this->getMockForAbstractClass( 
+            'org\\westhoffswelt\\wsgen\\Logger'
+        );
+
+        $m = $this->getMockForAbstractClass( '\\org\\westhoffswelt\\wsgen\\Renderer', array( $logger, 'foobar.png' ) );
         $m->expects( $this->once() )
           ->method( 'init' )
           ->with( 
@@ -54,9 +58,21 @@ class Vertical extends \PHPUnit_Framework_TestCase
         return $m;
     }
 
+    protected function layoutFixture( $renderer ) 
+    {
+        $logger = $this->getMockForAbstractClass( 
+            'org\\westhoffswelt\\wsgen\\Logger'
+        );
+        
+        return new wsgen\LayoutManager\Vertical( 
+            $logger,
+            $renderer
+        );
+    }
+
     public function testOneImageLayout() 
     {
-        $layout = new wsgen\LayoutManager\Vertical( 
+        $layout = $this->layoutFixture( 
             $this->rendererMock( 
                 64, 64,
                 array( 
@@ -81,7 +97,7 @@ class Vertical extends \PHPUnit_Framework_TestCase
 
     public function testTwoImagesWithSameSize() 
     {
-        $layout = new wsgen\LayoutManager\Vertical( 
+        $layout = $this->layoutFixture( 
             $this->rendererMock( 
                 64, 128,
                 array( 
@@ -112,7 +128,7 @@ class Vertical extends \PHPUnit_Framework_TestCase
 
     public function testTwoImagesSecondOneIsBigger() 
     {
-        $layout = new wsgen\LayoutManager\Vertical( 
+        $layout = $this->layoutFixture( 
             $this->rendererMock( 
                 96, 128,
                 array( 
@@ -143,7 +159,7 @@ class Vertical extends \PHPUnit_Framework_TestCase
 
     public function testTwoImagesSecondOneIsSmaller() 
     {
-        $layout = new wsgen\LayoutManager\Vertical( 
+        $layout = $this->layoutFixture( 
             $this->rendererMock( 
                 96, 128,
                 array( 
@@ -174,7 +190,7 @@ class Vertical extends \PHPUnit_Framework_TestCase
 
     public function testTwoIdenticalImages() 
     {
-        $layout = new wsgen\LayoutManager\Vertical( 
+        $layout = $this->layoutFixture( 
             $this->rendererMock( 
                 64, 64,
                 array( 

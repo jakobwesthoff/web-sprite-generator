@@ -40,12 +40,20 @@ abstract class DefinitionReader
     protected $inputFile;
 
     /**
+     * Application wide logger instance. 
+     * 
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * Constructor taking the definition filepath to read as an argument. 
      * 
      * @param string $definition 
      */
-    public function __construct( $definition ) 
+    public function __construct( $logger, $definition ) 
     {
+        $this->logger    = $logger;
         $this->inputFile = $definition;
     }
 

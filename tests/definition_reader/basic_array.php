@@ -32,7 +32,12 @@ class BasicArray extends \PHPUnit_Framework_TestCase
 
     protected function readerFixture( $file ) 
     {
+        $logger = $this->getMockForAbstractClass( 
+            'org\\westhoffswelt\\wsgen\\Logger'
+        );
+
         return new wsgen\DefinitionReader\BasicArray( 
+            $logger,
             __DIR__ . '/data/basic_array_' . $file
         );
     }

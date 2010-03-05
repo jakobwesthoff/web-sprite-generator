@@ -36,12 +36,20 @@ abstract class Renderer
     protected $targetFile;
 
     /**
+     * Application wide logger instance 
+     * 
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * Constructor taking the target filepath as argument. 
      * 
      * @param string $target 
      */
-    public function __construct( $target ) 
+    public function __construct( $logger, $target ) 
     {
+        $this->logger     = $logger;
         $this->targetFile = $target;
     }
 

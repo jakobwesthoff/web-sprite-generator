@@ -65,12 +65,12 @@ class CssBackground
      * @param string $prefixAddition 
      * @return void
      */
-    public function __construct( $target, $prefixRemoval = "", $prefixAddition = "" ) 
+    public function __construct( $logger, $target, $prefixRemoval = "", $prefixAddition = "" ) 
     {
         $this->prefixRemoval = $prefixRemoval;
         $this->prefixAddition = $prefixAddition;
 
-        parent::__construct( $target );
+        parent::__construct( $logger, $target );
     }
     
     /**

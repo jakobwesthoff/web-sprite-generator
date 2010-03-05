@@ -39,12 +39,20 @@ abstract class LayoutManager
     protected $renderer;
 
     /**
+     * Application wide logger instance 
+     * 
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * Constructor taking the render to be used as argument.
      * 
      * @param Renderer $renderer 
      */
-    public function __construct( $renderer ) 
+    public function __construct( $logger, $renderer ) 
     {
+        $this->logger   = $logger;
         $this->renderer = $renderer;
     }
 
