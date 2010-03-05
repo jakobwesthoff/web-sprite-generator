@@ -1,0 +1,57 @@
+#!/usr/bin/env php
+<?php
+/**
+ * wsgen commandline client
+ *
+ * This file is part of wsgen.
+ *
+ * wsgen is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3 of the License.
+ *
+ * wsgen is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with wsgen; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+namespace org\westhoffswelt\wsgen;
+
+/*
+ * This is a temporary cli runner for wsgen. In the future this runner should
+ * become more sophisticated to accept different reader, writer, layout and
+ * render modules and provide a more useful help text.
+ */
+
+if ( $argc < 4 ) 
+{
+    echo <<<END
+WebSpriteGenerator @VERSION@
+(c) 2010 Jakob Westhoff
+
+Usage: 
+  wsgen <input definition> <output definition> <target sprite>
+
+
+END;
+
+    exit( 1 );
+}
+
+$input  = $argv[1];
+$output = $argv[2];
+$sprite = $argv[3];
+
+
+$logger = new Logger\Console( false );
+$renderer = new Renderer\GD( $logger, $sprite );
+$layout = new LayoutManager\Vertical( $logger, $renderer );
+
+$reader = new DefinitionReader\BasicArray( $logger, $input );
+$writer = new DefinitionWriter\CssBackground( $logger, $output );
+
+$app = new Application( $logger, $reader, $layout, $writer );
+$app->run();
