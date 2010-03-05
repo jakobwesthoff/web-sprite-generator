@@ -89,6 +89,8 @@ class Vertical
             // The image has already been processed.
             return;
         }
+
+        $this->logger->log( E_NOTICE, "Adding image '%s' to layout.", basename( $image ) );
         
         $resolution = $this->renderer->retrieveResolution( $image );
 

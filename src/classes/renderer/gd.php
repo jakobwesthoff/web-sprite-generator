@@ -143,6 +143,8 @@ class GD
      */
     public function init( $width, $height, $background ) 
     {
+        $this->logger->log( E_NOTICE, "Initializing sprite render surface." );
+
         if( ( $this->image = imagecreatetruecolor( $width, $height ) ) === false )
         {
             throw new \RuntimeException( "The GD image could not be initialized for drawing." );
@@ -167,6 +169,8 @@ class GD
      */
     public function drawImage( $image, $x, $y ) 
     {
+        $this->logger->log( E_NOTICE, "Drawing image '%s' to sprite.", basename( $image ) );
+
         $src = $this->loadImage( $image );
         imagecopy( 
             $this->image,
@@ -186,6 +190,8 @@ class GD
      */
     public function finish() 
     {
+        $this->logger->log( E_NOTICE, "Writing sprite to disk: %s.", $this->targetFile );
+
         imagepng( $this->image, $this->targetFile );
         imagedestroy( $this->image );
         $this->image = null;

@@ -82,6 +82,7 @@ class BasicArray
             throw new \RuntimeException( "The provided definition file '$file' is not readable." );            
         }
 
+        $this->logger->log( E_NOTICE, "Reading definition file '%s'.", $file );
         $definition = include( $file );
 
         if ( !is_array( $definition ) ) 

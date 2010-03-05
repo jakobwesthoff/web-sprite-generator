@@ -116,6 +116,7 @@ class CssBackground
 
         foreach( $imageLayoutMap as $image => $info ) 
         {
+            $this->logger->log( E_NOTICE, "Writing definition for sprite: %s.", basename( $image ) );
             // First we need to isolate the css rules for the given image file.
             $rules = $imageIdentifierMap[$image];
             $this->write(
