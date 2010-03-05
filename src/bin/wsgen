@@ -26,6 +26,8 @@ namespace org\westhoffswelt\wsgen;
  * render modules and provide a more useful help text.
  */
 
+include( __DIR__ . '/../config/config.php' );
+
 if ( $argc < 4 ) 
 {
     echo <<<END
