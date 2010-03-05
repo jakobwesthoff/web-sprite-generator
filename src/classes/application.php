@@ -66,17 +66,17 @@ class Application
     /**
      * Construct with all the needed components. 
      * 
+     * @param Logger $logger 
      * @param DefinitionReader $reader 
      * @param LayoutManager $layout 
      * @param DefinitionWriter $writer 
-     * @param Logger $logger 
      */
-    public function __construct( DefinitionReader $reader, LayoutManager $layout, DefinitionWriter $writer, Logger $logger = null ) 
+    public function __construct( Logger $logger, DefinitionReader $reader, LayoutManager $layout, DefinitionWriter $writer ) 
     {
+        $this->logger = $logger;
         $this->reader = $reader;
         $this->layout = $layout;
         $this->writer = $writer;
-        $this->logger = ( $logger !== null ) ? $logger : new Logger\Console();
     }
 
     /**
