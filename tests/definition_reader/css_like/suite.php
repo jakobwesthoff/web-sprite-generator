@@ -17,27 +17,25 @@
  * along with wsgen; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-namespace org\westhoffswelt\wsgen\tests\DefinitionReader;
+namespace org\westhoffswelt\wsgen\tests\DefinitionReader\CssLike;
 
 /**
  * Include all the needed test files/suites
  */
-include( __DIR__ . '/basic_array.php' );
-include( __DIR__ . '/css_like/suite.php' );
+include( __DIR__ . '/token_filter.php' );
 
-class DefinitionReaderSuite extends \PHPUnit_Framework_TestSuite 
+class CssLikeSuite extends \PHPUnit_Framework_TestSuite 
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setName( 'DefinitionReader' );
+        $this->setName( 'CssLike' );
 
-        $this->addTest( BasicArray::suite() );        
-        $this->addTest( CssLike\CssLikeSuite::suite() );        
+        $this->addTest( TokenFilter::suite() );        
     }
 
     public static function suite() 
     {
-        return new DefinitionReaderSuite( __CLASS__ );
+        return new CssLikeSuite( __CLASS__ );
     }
 }
