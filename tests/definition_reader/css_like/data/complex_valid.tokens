@@ -1,0 +1,310 @@
+<?php
+ return array (
+  0 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 1,
+     'line' => 1,
+     'character' => 1,
+     'value' => 'div#foo > .bar + span:active',
+  )),
+  1 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 2,
+     'line' => 1,
+     'character' => 30,
+     'value' => '{',
+  )),
+  2 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 1,
+     'character' => 31,
+     'value' => '
+',
+  )),
+  3 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 6,
+     'line' => 2,
+     'character' => 1,
+     'value' => '	',
+  )),
+  4 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 4,
+     'line' => 2,
+     'character' => 2,
+     'value' => 'some/file/name.png',
+  )),
+  5 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 2,
+     'character' => 28,
+     'value' => '
+',
+  )),
+  6 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 3,
+     'line' => 3,
+     'character' => 1,
+     'value' => '}',
+  )),
+  7 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 3,
+     'character' => 2,
+     'value' => '
+',
+  )),
+  8 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 4,
+     'character' => 1,
+     'value' => '
+',
+  )),
+  9 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 1,
+     'line' => 5,
+     'character' => 1,
+     'value' => 'div#foo > .bar + span:active',
+  )),
+  10 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 2,
+     'line' => 5,
+     'character' => 31,
+     'value' => '{',
+  )),
+  11 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 5,
+     'character' => 32,
+     'value' => '
+',
+  )),
+  12 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 6,
+     'line' => 6,
+     'character' => 1,
+     'value' => '	',
+  )),
+  13 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 4,
+     'line' => 6,
+     'character' => 2,
+     'value' => 'some/file/name.png',
+  )),
+  14 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 6,
+     'character' => 28,
+     'value' => '
+',
+  )),
+  15 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 3,
+     'line' => 7,
+     'character' => 1,
+     'value' => '}',
+  )),
+  16 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 7,
+     'character' => 2,
+     'value' => '
+',
+  )),
+  17 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 8,
+     'character' => 1,
+     'value' => '
+',
+  )),
+  18 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 9,
+     'character' => 1,
+     'value' => '
+',
+  )),
+  19 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 1,
+     'line' => 10,
+     'character' => 1,
+     'value' => 'div#foo > .bar + span:active',
+  )),
+  20 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 2,
+     'line' => 10,
+     'character' => 30,
+     'value' => '{',
+  )),
+  21 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 6,
+     'line' => 10,
+     'character' => 31,
+     'value' => ' ',
+  )),
+  22 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 4,
+     'line' => 10,
+     'character' => 32,
+     'value' => 'some/file/name.png',
+  )),
+  23 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 6,
+     'line' => 10,
+     'character' => 58,
+     'value' => ' ',
+  )),
+  24 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 3,
+     'line' => 10,
+     'character' => 59,
+     'value' => '}',
+  )),
+  25 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 10,
+     'character' => 60,
+     'value' => '
+',
+  )),
+  26 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 1,
+     'line' => 11,
+     'character' => 1,
+     'value' => 'div#foo > .bar + span:active',
+  )),
+  27 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 2,
+     'line' => 11,
+     'character' => 29,
+     'value' => '{',
+  )),
+  28 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 4,
+     'line' => 11,
+     'character' => 30,
+     'value' => 'some/file/name.png',
+  )),
+  29 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 3,
+     'line' => 11,
+     'character' => 56,
+     'value' => '}',
+  )),
+  30 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 11,
+     'character' => 57,
+     'value' => '
+',
+  )),
+  31 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 6,
+     'line' => 12,
+     'character' => 1,
+     'value' => '    ',
+  )),
+  32 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 1,
+     'line' => 12,
+     'character' => 5,
+     'value' => 'div#foo > .bar + span:active',
+  )),
+  33 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 2,
+     'line' => 12,
+     'character' => 33,
+     'value' => '{',
+  )),
+  34 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 4,
+     'line' => 12,
+     'character' => 34,
+     'value' => 'some/file/name.png',
+  )),
+  35 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 3,
+     'line' => 12,
+     'character' => 60,
+     'value' => '}',
+  )),
+  36 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 12,
+     'character' => 61,
+     'value' => '
+',
+  )),
+  37 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 1,
+     'line' => 13,
+     'character' => 1,
+     'value' => 'div#foo > .bar + span:active',
+  )),
+  38 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 2,
+     'line' => 13,
+     'character' => 33,
+     'value' => '{',
+  )),
+  39 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 4,
+     'line' => 13,
+     'character' => 34,
+     'value' => 'some/file/name.png',
+  )),
+  40 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 3,
+     'line' => 13,
+     'character' => 60,
+     'value' => '}',
+  )),
+  41 => 
+  org\westhoffswelt\wsgen\DefinitionReader\CssLike\Token::__set_state(array(
+     'type' => 7,
+     'line' => 13,
+     'character' => 61,
+     'value' => '
+',
+  )),
+);

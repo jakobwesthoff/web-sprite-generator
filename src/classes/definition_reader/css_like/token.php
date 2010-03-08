@@ -76,6 +76,24 @@ class Token
     public function __construct( $type, $line, $character, $value = null ) 
     {
         $this->type = $type;
+        $this->line = $line;
+        $this->character = $character;
         $this->value = $value;
+    }
+
+    /**
+     * Allow import of Tokens exported by using var_export.
+     * 
+     * @param array $properties 
+     * @return Token
+     */
+    public static function __set_state( $properties ) 
+    {
+        return new self(
+            $properties['type'],
+            $properties['line'],
+            $properties['character'],
+            $properties['value']
+        );
     }
 }

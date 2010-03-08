@@ -23,6 +23,7 @@ namespace org\westhoffswelt\wsgen\tests\DefinitionReader\CssLike;
  * Include all the needed test files/suites
  */
 include( __DIR__ . '/token_filter.php' );
+include( __DIR__ . '/tokenizer.php' );
 
 class CssLikeSuite extends \PHPUnit_Framework_TestSuite 
 {
@@ -32,6 +33,7 @@ class CssLikeSuite extends \PHPUnit_Framework_TestSuite
         $this->setName( 'CssLike' );
 
         $this->addTest( TokenFilter::suite() );        
+        $this->addTest( Tokenizer::suite() );        
     }
 
     public static function suite() 

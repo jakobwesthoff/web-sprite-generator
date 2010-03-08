@@ -117,9 +117,22 @@ class Tokenizer
                 $token = new Token( 
                     $type, 
                     $this->line, 
-                    $this->character,
-                    isset( $matches['value'] ) ? $matches['value'] : null
+                    $this->character
                 );
+
+                // Some tokens need a special handling for their value
+                if( isset( $matches['value'] ) ) 
+                {
+                    switch( $type ) 
+                    {
+                        case Token::T_IMAGE_FILE:
+                        case Token::T_CSS_RULE:
+                            $token->value = trim( $matches['value'] );
+                        break;
+                        default:
+                            $token->value = $matches['value'];
+                    }
+                }
 
                 // Write the generated token to our tokenStream and shorten the
                 // input stream by all matched characters
