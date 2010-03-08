@@ -1,0 +1,7 @@
+<?php
+ return array (
+  'some/file/name.png' => 
+  array (
+    0 => 'div#foo > .bar + span:active',
+  ),
+);

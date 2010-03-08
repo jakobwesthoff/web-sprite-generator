@@ -1,0 +1,14 @@
+<?php
+ return array (
+  'some/file.png' => 
+  array (
+    0 => '.rule1',
+    1 => '.rule2',
+  ),
+  'some/other/file.png' => 
+  array (
+    0 => '#rule1',
+    1 => '#rule2',
+    2 => '#rule3',
+  ),
+);
