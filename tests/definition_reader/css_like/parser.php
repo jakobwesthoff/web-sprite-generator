@@ -56,6 +56,10 @@ class Parser extends \PHPUnit_Framework_TestCase
                 'missing_semicolon_invalid.tokens',
                 "Parse error: Expected a image file in line 2 at position 2, but found a CSS rule"
             ),
+            array( 
+                'missing_css_rule.tokens',
+                "Parse error: Expected a CSS rule in line 1 at position 1, but found a opened curly brace"
+            ),
         );
     }
 /*

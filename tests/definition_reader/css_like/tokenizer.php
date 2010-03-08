@@ -44,12 +44,13 @@ class Tokenizer extends \PHPUnit_Framework_TestCase
             array( 'missing_closing_brace.cfg', 'missing_closing_brace.tokens' ),
             array( 'missing_semicolon_invalid.cfg', 'missing_semicolon_invalid.tokens' ),
             array( 'multiple_rules.cfg', 'multiple_rules.tokens' ),
+            array( 'missing_css_rule.cfg', 'missing_css_rule.tokens' ),
         );
     }
 /*
     public function testCreateTokens() 
     {
-        $file = "multiple_rules";
+        $file = "missing_css_rule";
 
         $tokenizer = $this->tokenizerFixture( $file . ".cfg" );
         \file_put_contents( 
