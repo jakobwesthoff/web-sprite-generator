@@ -8,6 +8,7 @@ return array(
     $namespace . '\\DefinitionReader\\CssLike\\Token'       => 'classes/definition_reader/css_like/token.php',
     $namespace . '\\DefinitionReader\\CssLike\\Tokenizer'   => 'classes/definition_reader/css_like/tokenizer.php',
     $namespace . '\\DefinitionReader\\CssLike\\TokenFilter' => 'classes/definition_reader/css_like/token_filter.php',
+    $namespace . '\\DefinitionReader\\CssLike\\Parser'      => 'classes/definition_reader/css_like/parser.php',
     $namespace . '\\Renderer'                               => 'classes/renderer.php',
     $namespace . '\\Renderer\\GD'                           => 'classes/renderer/gd.php',
     $namespace . '\\LayoutManager'                          => 'classes/layout_manager.php',
