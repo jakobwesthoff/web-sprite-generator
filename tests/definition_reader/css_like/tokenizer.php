@@ -41,13 +41,15 @@ class Tokenizer extends \PHPUnit_Framework_TestCase
         return array( 
             array( 'simple_valid.cfg', 'simple_valid.tokens' ),
             array( 'complex_valid.cfg', 'complex_valid.tokens' ),
+            array( 'missing_closing_brace.cfg', 'missing_closing_brace.tokens' ),
+            array( 'missing_semicolon_invalid.cfg', 'missing_semicolon_invalid.tokens' ),
+            array( 'multiple_rules.cfg', 'multiple_rules.tokens' ),
         );
     }
-
-    /*
+/*
     public function testCreateTokens() 
     {
-        $file = "complex_valid";
+        $file = "multiple_rules";
 
         $tokenizer = $this->tokenizerFixture( $file . ".cfg" );
         \file_put_contents( 
@@ -58,8 +60,7 @@ class Tokenizer extends \PHPUnit_Framework_TestCase
             ) . ";"
         );
     }
-    */
-
+*/
     /**
      * @dataProvider validInputAndTokensProvider 
      */

@@ -87,7 +87,7 @@ class Tokenizer
             Token::T_IMAGE_FILE =>
                 '(\\Aimage:\s*(?P<value>[^;]+);)S',
             Token::T_CSS_RULE =>
-                '(\\A(?P<value>[^{]+))S',
+                '(\\A(?P<value>[^{,]+))S',
         );
     }
 
