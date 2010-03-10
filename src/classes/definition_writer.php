@@ -46,13 +46,25 @@ abstract class DefinitionWriter
     protected $logger;
 
     /**
-     * Constructor taking the target file as argument 
+     * Sprite to create the definition for. 
      * 
-     * @param string $target 
+     * @var string
      */
-    public function __construct( $logger, $target ) 
+    protected $sprite;
+
+    /**
+     * Constructor taking a logger, the sprite targetfile and the definition
+     * target file as argument
+     *
+     * @param Logger $logger 
+     * @param string $sprite 
+     * @param string $target 
+     * @return void
+     */
+    public function __construct( $logger, $sprite, $target ) 
     {
         $this->logger     = $logger;
+        $this->sprite     = $sprite;
         $this->targetFile = $target;
     }
 

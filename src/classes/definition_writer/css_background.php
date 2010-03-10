@@ -39,42 +39,34 @@ class CssBackground
     protected $targetHandle = null;
 
     /**
-     * Prefix to remove from any image file path.
+     * Prefixed sprite filepath. 
      * 
      * @var string
      */
-    protected $prefixRemoval = "";
+    protected $prefixedSprite = "";
 
     /**
-     * Prefix to add to any image file path. 
+     * Construct the writer taking the target filename as well a prefix to
+     * attach to the sprite image name.
      * 
-     * @var string
-     */
-    protected $prefixAddition = "";
-
-    /**
-     * Construct the writer taking the target filename as well as prefix
-     * handlers as arguments. 
+     * The prefix is an optional argument allowing a certain prefix to
+     * be added to the sprite image filepath.
      * 
-     * The prefix strings are optional arguments allowing a certain prefix to
-     * be removed from all image filepaths as well as another one to be added to
-     * it.
-     * 
-     * @param mixed $target 
-     * @param string $prefixRemoval 
-     * @param string $prefixAddition 
+     * @param wsgen\Logger $logger 
+     * @param string $sprite 
+     * @param string $target 
+     * @param string $prefix 
      * @return void
      */
-    public function __construct( $logger, $target, $prefixRemoval = "", $prefixAddition = "" ) 
+    public function __construct( $logger, $sprite, $target, $prefix = "" ) 
     {
-        $this->prefixRemoval = $prefixRemoval;
-        $this->prefixAddition = $prefixAddition;
+        $this->prefixedSprite = $prefix . $sprite;
 
-        parent::__construct( $logger, $target );
+        parent::__construct( $logger, $sprite, $target );
     }
     
     /**
-     * Write the definition based on the given mappings as css rukes to the
+     * Write the definition based on the given mappings as css rules to the
      * given target file. 
      * 
      * The format of the given maps is identical to the ones provided by the
@@ -127,7 +119,7 @@ class CssBackground
             $this->writeLine( 
                 sprintf( 
                     "    background: transparent url( '%s' ) -%dpx -%dpx",
-                    $this->prefixImage( $image ),
+                    $this->prefixedSprite,
                     $info[0][0],
                     $info[0][1]
                 )
@@ -185,20 +177,5 @@ class CssBackground
     protected function closeTargetFile() 
     {
         fclose( $this->targetHandle );
-    }
-
-    /**
-     * Apply the given prefix removal/additions to the given imagepath. 
-     * 
-     * @param string $image 
-     * @return string
-     */
-    protected function prefixImage( $image ) 
-    {
-        return $this->prefixAddition . preg_replace( 
-            '(^' . preg_quote( $this->prefixRemoval ) . ')',
-            "",
-            $image
-        );
     }
 }

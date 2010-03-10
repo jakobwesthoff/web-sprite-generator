@@ -1,9 +1,0 @@
-.identifier1,
-.identifier2 {
-    background: transparent url( '../images/bar.png' ) -0px -0px
-}
-
-#identifier3 {
-    background: transparent url( '../images/baz/foo/blub.png' ) -0px -64px
-}
-

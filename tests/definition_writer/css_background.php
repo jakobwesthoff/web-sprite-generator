@@ -42,7 +42,7 @@ class CssBackground extends \PHPUnit_Framework_TestCase
         unlink( $this->tmp );
     }
 
-    protected function writerFixture( $file = null, $removalPrefix = "", $additionPrefix = "" ) 
+    protected function writerFixture( $file = null, $sprite = "foobar.png", $prefix = "" ) 
     {
         if ( $file === null ) 
         {
@@ -55,9 +55,9 @@ class CssBackground extends \PHPUnit_Framework_TestCase
 
         return new wsgen\DefinitionWriter\CssBackground( 
             $logger,
+            $sprite,
             $file,
-            $removalPrefix,
-            $additionPrefix
+            $prefix
         );
     }
 
@@ -101,27 +101,11 @@ class CssBackground extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testPrefixRemoval() 
-    {
-        $writer = $this->writerFixture(
-            null, 
-            'foo/'
-        );
-        $writer->writeDefinition( 
-            $this->imageIdentifierMapFixture(),
-            $this->imageLayoutMapFixture()
-        );
-        $this->assertFileEquals(
-            __DIR__ . '/data/css_background_prefix_removal.css',
-            $this->tmp
-        );
-    }
-
     public function testPrefixAddition() 
     {
         $writer = $this->writerFixture(
             null, 
-            "",
+            "foobar.png",
             "../images/"
         );
         $writer->writeDefinition( 
@@ -130,23 +114,6 @@ class CssBackground extends \PHPUnit_Framework_TestCase
         );
         $this->assertFileEquals(
             __DIR__ . '/data/css_background_prefix_addition.css',
-            $this->tmp
-        );
-    }
-
-    public function testPrefixRemovalAndAddition() 
-    {
-        $writer = $this->writerFixture(
-            null, 
-            "foo/",
-            "../images/"
-        );
-        $writer->writeDefinition( 
-            $this->imageIdentifierMapFixture(),
-            $this->imageLayoutMapFixture()
-        );
-        $this->assertFileEquals(
-            __DIR__ . '/data/css_background_prefix_removal_and_addition.css',
             $this->tmp
         );
     }
