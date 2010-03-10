@@ -71,4 +71,26 @@ abstract class MetaImage
      *         be determined.
      */
     public abstract function getResolution();
+
+    /**
+     * Provide the color value of the pixel at coordinates $x, $y. 
+     * 
+     * The returned color is supposed to be a tuple containing the byte value
+     * of each channel:
+     * <code>
+     *   array( 
+     *      $red,
+     *      $blue,
+     *      $green,
+     *      $alpha
+     *   );
+     * </code>
+     * As all values are supposed to be the actual byte values all are
+     * represented by an integer between 0 and 255.
+     * 
+     * @param int $x 
+     * @param int $y 
+     * @return array
+     */
+    public abstract function getColorAt( $x, $y );
 }

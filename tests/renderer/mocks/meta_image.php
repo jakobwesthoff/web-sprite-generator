@@ -20,6 +20,11 @@ class MetaImage extends wsgen\MetaImage
         return $this->resolution;
     }
 
+    public function getColorAt( $x, $y ) 
+    {
+        return array( 0, 0, 0, 0 );
+    }
+
     public function getResource() 
     {
         return $this->resource;

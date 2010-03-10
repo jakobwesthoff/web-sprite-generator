@@ -73,4 +73,29 @@ class GD extends \PHPUnit_Framework_TestCase
         $this->setExpectedException( '\\RuntimeException' );
         $image = $this->metaImageFixture('not_supported_format.bmp');
     }
+
+    public function testImageColorAt() 
+    {
+        $image = $this->metaImageFixture( 'image.png' );
+
+        $this->assertSame( 
+            array( 255, 0, 0, 0 ), /* Red */
+            $image->getColorAt( 25, 25 )
+        );
+
+        $this->assertSame( 
+            array( 255, 234, 0, 0 ), /* Yellow */
+            $image->getColorAt( 5, 5 )
+        );
+
+        $this->assertSame( 
+            array( 255, 255, 255, 0 ), /* White */
+            $image->getColorAt( 55, 15 )
+        );
+
+        $this->assertSame( 
+            array( 0, 0, 0, 255 ), /* Transparent */
+            $image->getColorAt( 60, 60 )
+        );
+    }
 }

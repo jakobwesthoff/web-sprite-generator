@@ -123,6 +123,42 @@ class GD
 
         return array( $width, $height );
     }
+    /**
+     * Provide the color value of the pixel at coordinates $x, $y. 
+     * 
+     * The returned color is a tuple containing the byte value of each
+     * channel:
+     * <code>
+     *   array( 
+     *      $red,
+     *      $blue,
+     *      $green,
+     *      $alpha
+     *   );
+     * </code>
+     * As all values are the actual byte values each of them is represented by
+     * an integer between 0 and 255.
+     * 
+     * @param int $x 
+     * @param int $y 
+     * @return array
+     */
+
+    public function getColorAt( $x, $y ) 
+    {
+        $color = imagecolorat( $this->resource, $x, $y );
+
+        // The alpha is represented in a 7bit fassion only by gd. Therefore it
+        // needs normalization.
+        $alpha = round( ( (int)( ( $color >> 24 ) & 0xFF ) / 127 ) * 255);
+
+        return array( 
+            ( $color >> 16 ) & 0xFF,
+            ( $color >> 8 ) & 0xFF,
+            ( $color ) & 0xFF,
+            (int)$alpha
+        );
+    }
 
     /**
      * Provide the image resource of the loaded image 
