@@ -20,4 +20,6 @@ return array(
     $namespace . '\\Logger'                                 => 'classes/logger.php',
     $namespace . '\\Logger\\Console'                        => 'classes/logger/console.php',
     $namespace . '\\Application'                            => 'classes/application.php',
+    $namespace . '\\LayoutManager\\ColorGroup'              => 'classes/layout_manager/color_group.php',
+    $namespace . '\\LayoutManager\\ColorGroup\\Classifier'  => 'classes/layout_manager/color_group/classifier.php',
 );

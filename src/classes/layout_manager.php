@@ -106,7 +106,7 @@ abstract class LayoutManager
      *   ...
      * </code>
      * 
-     * @return void
+     * @return array
      */
     public abstract function finish();
 }
