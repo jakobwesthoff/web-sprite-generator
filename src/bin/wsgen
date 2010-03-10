@@ -52,7 +52,7 @@ $logger = new Logger\Console( false );
 $renderer = new Renderer\GD( $logger, $sprite );
 $layout = new LayoutManager\Vertical( $logger, $renderer );
 
-$reader = new DefinitionReader\BasicArray( $logger, $input );
+$reader = new DefinitionReader\CssLike( $logger, $input );
 $writer = new DefinitionWriter\CssBackground( $logger, $output );
 
 $app = new Application( $logger, $reader, $layout, $writer );

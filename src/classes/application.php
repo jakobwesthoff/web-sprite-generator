@@ -94,7 +94,7 @@ class Application
             foreach( $imageIdentifierMap as $image => $identifier ) 
             {
                 $this->layout->layoutImage( 
-                    $this->layout->getRenderer->createMetaImage( 
+                    $this->layout->getRenderer()->createMetaImage( 
                         $image
                     )
                 );
