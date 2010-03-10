@@ -75,10 +75,10 @@ abstract class LayoutManager
      * layout manager should take care of this to ensure every image is only
      * rendered once.
      * 
-     * @param string $image 
+     * @param MetaImage $image 
      * @return void
      */
-    public abstract function layoutImage( $image );
+    public abstract function layoutImage( MetaImage $image );
 
     /**
      * Finish the layouting process and return a image-layout-mapping. 

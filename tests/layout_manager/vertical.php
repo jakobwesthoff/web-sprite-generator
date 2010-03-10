@@ -30,7 +30,7 @@ class Vertical extends \PHPUnit_Framework_TestCase
         return $suite;
     }
 
-    protected function rendererMock( $width, $height, $images ) 
+    protected function rendererMock( $width, $height ) 
     {
         $logger = $this->getMockForAbstractClass( 
             'org\\westhoffswelt\\wsgen\\Logger'
@@ -48,13 +48,16 @@ class Vertical extends \PHPUnit_Framework_TestCase
         $m->expects( $this->once() )
           ->method( 'finish' );
 
-        foreach( $images as $index => $image ) 
-        {
-            $m->expects( $this->at( $index ) )
-              ->method( 'retrieveResolution' )
-              ->will( $this->returnValue( $image ) );
-        }
+        return $m;
+    }
 
+    protected function metaImageMock( $filename, $resolution ) 
+    {
+        $m = $this->getMockForAbstractClass( '\\org\\westhoffswelt\\wsgen\\MetaImage', array( $filename ) );
+        $m->expects( $this->any() )
+          ->method( 'getResolution' )
+          ->will( $this->returnValue( $resolution ) );
+        
         return $m;
     }
 
@@ -73,16 +76,13 @@ class Vertical extends \PHPUnit_Framework_TestCase
     public function testOneImageLayout() 
     {
         $layout = $this->layoutFixture( 
-            $this->rendererMock( 
-                64, 64,
-                array( 
-                    array( 64, 64 )
-                )
-            )
+            $this->rendererMock( 64, 64 )
         );
         
         $layout->init( 1 );
-        $layout->layoutImage( "foobar.png" );
+        $layout->layoutImage( 
+            $this->metaImageMock( "foobar.png", array( 64, 64 ) ) 
+        );
         $layoutTable = $layout->finish();
 
         $expected = array( 
@@ -98,18 +98,16 @@ class Vertical extends \PHPUnit_Framework_TestCase
     public function testTwoImagesWithSameSize() 
     {
         $layout = $this->layoutFixture( 
-            $this->rendererMock( 
-                64, 128,
-                array( 
-                    array( 64, 64 ),
-                    array( 64, 64 )
-                )
-            )
+            $this->rendererMock( 64, 128 )
         );
         
         $layout->init( 1 );
-        $layout->layoutImage( "foo.png" );
-        $layout->layoutImage( "bar.png" );
+        $layout->layoutImage( 
+            $this->metaImageMock( "foo.png", array( 64, 64 ) ) 
+        );
+        $layout->layoutImage( 
+            $this->metaImageMock( "bar.png", array( 64, 64 ) ) 
+        );
         $layoutTable = $layout->finish();
 
         $expected = array( 
@@ -129,18 +127,16 @@ class Vertical extends \PHPUnit_Framework_TestCase
     public function testTwoImagesSecondOneIsBigger() 
     {
         $layout = $this->layoutFixture( 
-            $this->rendererMock( 
-                96, 128,
-                array( 
-                    array( 64, 64 ),
-                    array( 96, 64 )
-                )
-            )
+            $this->rendererMock( 96, 128 )
         );
         
         $layout->init( 1 );
-        $layout->layoutImage( "foo.png" );
-        $layout->layoutImage( "bar.png" );
+        $layout->layoutImage( 
+            $this->metaImageMock( "foo.png", array( 64, 64 ) ) 
+        );
+        $layout->layoutImage( 
+            $this->metaImageMock( "bar.png", array( 96, 64 ) ) 
+        );
         $layoutTable = $layout->finish();
 
         $expected = array( 
@@ -160,18 +156,16 @@ class Vertical extends \PHPUnit_Framework_TestCase
     public function testTwoImagesSecondOneIsSmaller() 
     {
         $layout = $this->layoutFixture( 
-            $this->rendererMock( 
-                96, 128,
-                array( 
-                    array( 96, 64 ),
-                    array( 64, 64 )
-                )
-            )
+            $this->rendererMock( 96, 128 )
         );
         
         $layout->init( 1 );
-        $layout->layoutImage( "foo.png" );
-        $layout->layoutImage( "bar.png" );
+        $layout->layoutImage( 
+            $this->metaImageMock( "foo.png", array( 96, 64 ) ) 
+        );
+        $layout->layoutImage( 
+            $this->metaImageMock( "bar.png", array( 64, 64 ) ) 
+        );
         $layoutTable = $layout->finish();
 
         $expected = array( 
@@ -200,8 +194,9 @@ class Vertical extends \PHPUnit_Framework_TestCase
         );
         
         $layout->init( 1 );
-        $layout->layoutImage( "foo.png" );
-        $layout->layoutImage( "foo.png" );
+        $metaImage = $this->metaImageMock( "foo.png", array( 64, 64 ) );
+        $layout->layoutImage( $metaImage );
+        $layout->layoutImage( $metaImage );
         $layoutTable = $layout->finish();
 
         $expected = array( 
@@ -213,5 +208,4 @@ class Vertical extends \PHPUnit_Framework_TestCase
 
         $this->assertSame( $expected, $layoutTable );
     }
-
 }

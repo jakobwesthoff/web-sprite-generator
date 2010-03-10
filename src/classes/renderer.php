@@ -54,23 +54,6 @@ abstract class Renderer
     }
 
     /**
-     * Calculate the resolution of the given image file and return it. 
-     * 
-     * The resultion is supposed to be returned as tuple:
-     * <code>
-     *   array( $width, $height )
-     * </code>
-     * 
-     * This method may be called before the init method has been invoked.
-     * 
-     * @param string $file 
-     * @return array
-     * @throws RuntimeException if the resolution of the given file could not
-     *         be determined.
-     */
-    public abstract function retrieveResolution( $file );
-
-    /**
      * Initialization method called before the rendering is supposed to happen. 
      *
      * The background color is specified as a four-tuple:
@@ -81,8 +64,8 @@ abstract class Renderer
      * provided as opacity, where 0 means completely invisble, while 1 means
      * completely visible.
      * 
-     * Mostly all Renderer methods can assume to be only called after a call to
-     * init. Methods which should not assume this fact are marked as such.
+     * All Renderer methods can assume to be only called after a call to
+     * init.
      *
      * @param int $width 
      * @param int $height 
@@ -91,14 +74,14 @@ abstract class Renderer
     public abstract function init( $width, $height, $background );
 
     /**
-     * Draw the image stored at the given filepath to the provided coordinates. 
+     * Draw an image to the provided coordinates. 
      *
-     * @param string $image 
+     * @param MetaImage $image 
      * @param int $x 
      * @param int $y 
      * @throws RuntimeException if the image could not be drawn.
      */
-    public abstract function drawImage( $image, $x, $y );
+    public abstract function drawImage( MetaImage $image, $x, $y );
 
     /**
      * Finish the rendering and write the target image to disk. 
@@ -107,4 +90,16 @@ abstract class Renderer
      * to init
      */
     public abstract function finish();
+
+    /**
+     * Create a MetaImage associated with this renderer.
+     * 
+     * Every renderer is supposed to implement its own MetaImage, therefore it
+     * is supposed to return a new MetaImage of its type for the given filename
+     * here.
+     * 
+     * @param string $filename 
+     * @return MetaImage
+     */
+    public abstract function createMetaImage( $filename );
 }

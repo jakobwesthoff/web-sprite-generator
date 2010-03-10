@@ -37,6 +37,13 @@ class Vertical
     protected $layout = array();
 
     /**
+     * MetaImages stored by their filepaths 
+     * 
+     * @var array
+     */
+    protected $images = array();
+
+    /**
      * Y-Coordinate position for the next image.
      * 
      * @var int
@@ -79,25 +86,27 @@ class Vertical
      * layout manager takes care of this to ensure every image is only rendered
      * once.
      * 
-     * @param string $image 
+     * @param wsgen\MetaImage $image 
      * @return void
      */
-    public function layoutImage( $image ) 
+    public function layoutImage( wsgen\MetaImage $image ) 
     {
-        if ( array_key_exists( $image, $this->layout ) ) 
+        if ( array_key_exists( $image->getFilename(), $this->layout ) ) 
         {
             // The image has already been processed.
             return;
         }
 
-        $this->logger->log( E_NOTICE, "Adding image '%s' to layout.", basename( $image ) );
+        $this->logger->log( E_NOTICE, "Adding image '%s' to layout.", basename( $image->getFilename() ) );
         
-        $resolution = $this->renderer->retrieveResolution( $image );
+        $resolution = $image->getResolution();
+        $filename = $image->getFilename();
 
-        $this->layout[$image] = array( 
+        $this->layout[$filename] = array( 
             array( 0, $this->currentY ),
             $resolution
         );
+        $this->images[$filename] = $image;
 
         $this->width = max( $this->width, $resolution[0] );
         $this->height += $resolution[1];
@@ -125,9 +134,9 @@ class Vertical
     {
         // Render the given images to their calculated sprite positions.
         $this->renderer->init( $this->width, $this->height, array( 0, 0, 0, 0 ) );
-        foreach( $this->layout as $image => $layout ) 
+        foreach( $this->layout as $filename => $layout ) 
         {
-            $this->renderer->drawImage( $image, $layout[0][0], $layout[0][1] );
+            $this->renderer->drawImage( $this->images[$filename], $layout[0][0], $layout[0][1] );
         }
         $this->renderer->finish();
 

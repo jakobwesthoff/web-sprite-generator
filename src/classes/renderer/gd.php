@@ -61,68 +61,6 @@ class GD
     }
 
     /**
-     * Load the given image and return its GD image handle. 
-     * 
-     * The image format is identified automatically. If the image format could
-     * not be loaded a RuntimeException is thrown.
-     *
-     * @param string $image 
-     * @return resource
-     * @throws RuntimeException if the given image could not be loaded.
-     */
-    protected function loadImage( $image ) 
-    {
-        $typeToFunction = array( 
-            IMAGETYPE_GIF  => 'imagecreatefromgif',
-            IMAGETYPE_JPEG => 'imagecreatefromjpeg',
-            IMAGETYPE_PNG  => 'imagecreatefrompng',
-            IMAGETYPE_WBMP => 'imagecreatefromwbmp',
-            IMAGETYPE_XBM  => 'imagecreatefromwxb',
-        );
-
-        // There is no other way to silence gd
-        if ( ( $info = @getimagesize( $image ) ) === false ) 
-        {
-            throw new \RuntimeException( "The image format of '$image' could not be identified." );
-        }
-
-        // GD creation errors can not be silenced any other way :(
-        if( !( $handle = @$typeToFunction[$info[2]]( $image ) ) ) 
-        {
-            throw new \RuntimeException( "The image '$image' could not be opened." );
-        }
-
-        return $handle;
-    }
-
-    /**
-     * Calculate the resolution of the given image file and return it. 
-     * 
-     * The resultion is returned as tuple:
-     * <code>
-     *   array( $width, $height )
-     * </code>
-     * 
-     * This method may be called before the init method has been invoked.
-     * 
-     * @param string $file 
-     * @return array
-     * @throws RuntimeException if the resolution of the given file could not
-     *         be determined.
-     */
-    public function retrieveResolution( $file ) 
-    {
-        // GD can not be silenced in any other way
-        $info = @getimagesize( $file );
-        if ( $info === false ) 
-        {
-            throw new \RuntimeException( "The resolution of the given image '$file' could not be determined." );
-        }
-
-        return array_slice( $info, 0, 2 );
-    }
-
-    /**
      * Initialization method called before the rendering does happen. 
      *
      * The background color is specified as a four-tuple:
@@ -160,26 +98,25 @@ class GD
     }
 
     /**
-     * Draw the image stored at the given filepath to the provided coordinates. 
+     * Draw an image to the provided coordinates. 
      *
-     * @param string $image 
+     * @param wsgen\MetaImage\GD $image 
      * @param int $x 
      * @param int $y 
      * @throws RuntimeException if the image could not be drawn.
      */
-    public function drawImage( $image, $x, $y ) 
+    public function drawImage( wsgen\MetaImage $image, $x, $y ) 
     {
-        $this->logger->log( E_NOTICE, "Drawing image '%s' to sprite.", basename( $image ) );
-
-        $src = $this->loadImage( $image );
+        $this->logger->log( E_NOTICE, "Drawing image '%s' to sprite.", basename( $image->getFilename() ) );
+        
+        $srcDimensions = $image->getResolution();
         imagecopy( 
             $this->image,
-            $src,
+            $image->getResource(),
             $x, $y,
             0, 0,
-            imagesx( $src ), imagesy( $src )
+            $srcDimensions[0], $srcDimensions[1]
         );
-        imagedestroy( $src );
     }
 
     /**
@@ -195,5 +132,16 @@ class GD
         imagepng( $this->image, $this->targetFile );
         imagedestroy( $this->image );
         $this->image = null;
+    }
+
+    /**
+     * Create a MetaImage associated with this renderer.
+     * 
+     * @param string $filename 
+     * @return wsgen\MetaImage\GD
+     */
+    public function createMetaImage( $filename ) 
+    {
+        return new wsgen\MetaImage\GD( $filename );
     }
 }

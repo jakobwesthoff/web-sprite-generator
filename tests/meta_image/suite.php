@@ -17,32 +17,25 @@
  * along with wsgen; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-namespace org\westhoffswelt\wsgen\tests\Renderer;
-
-/**
- * Include all the needed mocks
- */
-include( __DIR__ . '/mocks/meta_image.php' );
+namespace org\westhoffswelt\wsgen\tests\MetaImage;
 
 /**
  * Include all the needed test files/suites
  */
 include( __DIR__ . '/gd.php' );
 
-
-
-class RendererSuite extends \PHPUnit_Framework_TestSuite 
+class MetaImageSuite extends \PHPUnit_Framework_TestSuite 
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setName( 'Renderer' );
+        $this->setName( 'MetaImage' );
 
         $this->addTest( GD::suite() );        
     }
 
     public static function suite() 
     {
-        return new RendererSuite( __CLASS__ );
+        return new MetaImageSuite( __CLASS__ );
     }
 }

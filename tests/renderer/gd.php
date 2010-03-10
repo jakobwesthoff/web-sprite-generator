@@ -54,14 +54,11 @@ class GD extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testResolutionRetrieval() 
+    protected function metaImageMock( $filename, $resolution = array( 64,64 ) ) 
     {
-        $renderer = $this->rendererFixture();
-        
-        $expected = array( 128, 64 );
-        $this->assertSame( 
-            $expected, 
-            $renderer->retrieveResolution( __DIR__ . '/data/result_alpha_horizontal.png') 
+        return new mocks\MetaImage( 
+            __DIR__ . '/data/' . $filename,
+            $resolution
         );
     }
 
@@ -93,8 +90,8 @@ class GD extends \PHPUnit_Framework_TestCase
     {
         $renderer = $this->rendererFixture();
         $renderer->init( 128, 64, array( 0, 0, 0, 0 ) );
-        $renderer->drawImage( __DIR__ . '/data/alpha_image.png', 0, 0 );
-        $renderer->drawImage( __DIR__ . '/data/alpha_image.png', 64, 0 );
+        $renderer->drawImage( $this->metaImageMock( 'alpha_image.png' ), 0, 0 );
+        $renderer->drawImage( $this->metaImageMock( 'alpha_image.png' ), 64, 0 );
         $renderer->finish();
 
         $this->assertFileEquals( 
@@ -107,8 +104,8 @@ class GD extends \PHPUnit_Framework_TestCase
     {
         $renderer = $this->rendererFixture();
         $renderer->init( 128, 64, array( 0, 0, 0, 1 ) );
-        $renderer->drawImage( __DIR__ . '/data/alpha_image.png', 0, 0 );
-        $renderer->drawImage( __DIR__ . '/data/alpha_image.png', 64, 0 );
+        $renderer->drawImage( $this->metaImageMock( 'alpha_image.png' ), 0, 0 );
+        $renderer->drawImage( $this->metaImageMock( 'alpha_image.png' ), 64, 0 );
         $renderer->finish();
 
         $this->assertFileEquals( 
@@ -121,33 +118,14 @@ class GD extends \PHPUnit_Framework_TestCase
     {
         $renderer = $this->rendererFixture();
         $renderer->init( 128, 64, array( 0, 1, 0, .5 ) );
-        $renderer->drawImage( __DIR__ . '/data/alpha_image.png', 0, 0 );
-        $renderer->drawImage( __DIR__ . '/data/alpha_image.png', 64, 0 );
+        $renderer->drawImage( $this->metaImageMock( 'alpha_image.png' ), 0, 0 );
+        $renderer->drawImage( $this->metaImageMock( 'alpha_image.png' ), 64, 0 );
         $renderer->finish();
 
         $this->assertFileEquals( 
             __DIR__ . '/data/gd_result_semi_horizontal.png',
             $this->tmp
         );
-    }
-
-    public function testRetrieveResolutionFromNonExistentFile() 
-    {
-        $renderer = $this->rendererFixture();
-
-        $this->setExpectedException( '\\RuntimeException' );
-
-        $renderer->retrieveResolution('some/non/existent/file' );
-    }
-
-    public function testDrawNonExistentImageFile() 
-    {
-        $renderer = $this->rendererFixture();
-        $renderer->init( 64, 64, array( 0, 0, 0, 0 ) );
-
-        $this->setExpectedException( '\\RuntimeException' );
-        
-        $renderer->drawImage( 'some/non/existent/file', 0, 0 );
     }
 
     public function testNonExistentBackgroundColor() 

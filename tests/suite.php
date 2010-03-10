@@ -33,6 +33,7 @@ include( __DIR__ . '/../src/config/config.php' );
  * Include all the needed test files/suites
  */
 include( __DIR__ . '/definition_reader/suite.php' );
+include( __DIR__ . '/meta_image/suite.php' );
 include( __DIR__ . '/renderer/suite.php' );
 include( __DIR__ . '/layout_manager/suite.php' );
 include( __DIR__ . '/definition_writer/suite.php' );
@@ -46,6 +47,7 @@ class WSGenSuite extends \PHPUnit_Framework_TestSuite
         $this->setName( 'WSGen' );
 
         $this->addTest( DefinitionReader\DefinitionReaderSuite::suite() );        
+        $this->addTest( MetaImage\MetaImageSuite::suite() );        
         $this->addTest( Renderer\RendererSuite::suite() );        
         $this->addTest( LayoutManager\LayoutManagerSuite::suite() );        
         $this->addTest( DefinitionWriter\DefinitionWriterSuite::suite() );        
