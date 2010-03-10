@@ -93,7 +93,11 @@ class Application
             $this->layout->init( count( $imageIdentifierMap ) );
             foreach( $imageIdentifierMap as $image => $identifier ) 
             {
-                $this->layout->layoutImage( $image );
+                $this->layout->layoutImage( 
+                    $this->layout->getRenderer->createMetaImage( 
+                        $image
+                    )
+                );
             }
             $imageLayoutMap = $this->layout->finish();
             

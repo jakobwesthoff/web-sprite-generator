@@ -57,6 +57,16 @@ abstract class LayoutManager
     }
 
     /**
+     * Retrieve the used renderer instance 
+     * 
+     * @return Renderer
+     */
+    public function getRenderer() 
+    {
+        return $this->renderer;
+    }
+
+    /**
      * Initialize the layouting process
      * 
      * This function is called before any other layouting function is called.
