@@ -20,40 +20,501 @@
  */
 namespace org\westhoffswelt\wsgen;
 
-/*
- * This is a temporary cli runner for wsgen. In the future this runner should
- * become more sophisticated to accept different reader, writer, layout and
- * render modules and provide a more useful help text.
- */
-
 include( __DIR__ . '/../config/config.php' );
 
-if ( $argc < 4 ) 
+/**
+ * Command-line-interface handler for the wsgen application.
+ */
+class CommandLineInterface 
 {
-    echo <<<END
-WebSpriteGenerator @VERSION@
-(c) 2010 Jakob Westhoff
+    /**
+     * Application name outputted on console for identification.
+     */
+    const APP_NAME = "WebSpriteGeneration @VERSION@\n(c) 2010 Jakob Westhoff\n\n";
 
-Usage: 
-  wsgen <input definition> <output definition> <target sprite>
+    /**
+     * Maximal line width to be used for splitting the text at. 
+     */
+    const LINEWIDTH = 79;
+    
+    /**
+     * Arguments supplied to the php process. 
+     * 
+     * @var array
+     */
+    protected $argv;
 
+    /**
+     * List of options available to the commandline interface
+     * 
+     * Every option in the options array always contains a flag indicating if it is
+     * optional or required, a shortoption definition (see http://php.net/getopt
+     * for details), a longoption definition (or null if no long option name should
+     * be available) and a description text of this particular option.
+     */
+    protected $options = array( 
+        array( 
+            false, "h", "help",
+            "Show this help text"
+        ),
+        array( 
+            false, "r:", "reader:", 
+            "Definition reader to use for input processing. (Default: css-like)"
+        ),
+        array( 
+            false, "e:", "render-engine:",
+            "Renderer engine to use for sprite generation. (Default: gd)"
+        ),
+        array( 
+            false, "w:", "writer:",
+            "Definition writer used to create an output definition. (Default: css-background)"
+        ),
+        array( 
+            false, "l:", "layout-manager:",
+            "Layout manager used to calculate the placement of the images inside the sprite. (Default: color-group)"
+        ),
+    );
+
+    /**
+     * List of available definition readers
+     * 
+     * Each reader entry consists of the name used for the command-line interface,
+     * the classname to be instantiated for usage, as well as a description.
+     */
+    protected $reader = array( 
+        'css-like' => 
+            array( 
+                'org\\westhoffswelt\\wsgen\\DefinitionReader\\CssLike',
+                "Reader of a css-like definition format. See the README.txt for more information about this format."
+            ),
+        'php-array' => 
+            array( 
+                'org\\westhoffswelt\\wsgen\\DefinitionReader\\SimpleArray',
+                "Reader of a php based array structure. See the README.txt for more information about this format."
+            ),
+    );
+
+    /**
+     * List of available definition writers
+     * 
+     * Each writer entry consists of the name used for the command-line interface,
+     * the classname to be instantiated for usage, as well as a description.
+     */
+    protected $writer = array( 
+        'css-background' =>
+            array( 
+                'org\\westhoffswelt\\wsgen\\DefinitionWriter\\CssBackground',
+                "Write out a css file containing moved background statements for each sprite image."
+            ),
+    );
+
+    /**
+     * List of available layout managers
+     * 
+     * Each entry consists of the name used for the command-line interface, the
+     * classname to be instantiated for usage, as well as a description.
+     */
+    protected $layoutManager = array( 
+        'color-group' =>
+            array( 
+                'org\\westhoffswelt\\wsgen\\LayoutManager\\ColorGroup',
+                "Group images horizontally by their overall color, to allow for better png compression."
+            ),
+        'vertical' =>
+            array( 
+                'org\\westhoffswelt\\wsgen\\LayoutManager\\Vertical',
+                "Align all images in a vertical row"
+            ),
+    );
+
+    /**
+     * List of available renderers
+     * 
+     * Each entry consists of the name used for the command-line interface, the
+     * classname to be instantiated for usage, as well as a description.
+     */
+    protected $renderer = array( 
+        'gd' =>
+            array( 
+                'org\\westhoffswelt\\wsgen\\Renderer\\GD',
+                "Renderer using the GD lib, which is available in most default php installations."
+            ),
+    );
+
+    /**
+     * Construct a new cli interface. 
+     * 
+     * @param array $argv 
+     */
+    public function __construct( $argv ) 
+    {
+        $this->argv = $argv;
+    }
+
+    /**
+     * Run the cli interface 
+     * 
+     * A shell compatible return code is returned from this function, which can
+     * be used as an exit code.
+     */
+    public function run() 
+    {
+        echo self::APP_NAME;
+
+        $options = $this->mergeOptions( 
+            getopt( 
+                $this->getShortOptions(),
+                $this->getLongOptions()
+            )
+        );
+
+        $arguments = $this->getCleanedArguments( $options );
+        
+        if ( isset( $options['h'] ) || count( $arguments ) < 4 ) 
+        {
+            $this->printUsage();
+            return 1;
+        }
+        
+        $this->componentDefault( $options, 'r', $this->reader );
+        $this->componentDefault( $options, 'w', $this->writer );
+        $this->componentDefault( $options, 'l', $this->layoutManager );
+        $this->componentDefault( $options, 'e', $this->renderer );
+
+        $input  = $arguments[1];
+        $sprite = $arguments[2];
+        $output = $arguments[3];
+
+        $logger = new Logger\Console( false );
+        $renderer = new $this->renderer[$options['e']][0]( $logger, $sprite );
+        $layout = new $this->layoutManager[$options['l']][0]( $logger, $renderer );
+
+        $reader = new $this->reader[$options['r']][0]( $logger, $input );
+        $writer = new $this->writer[$options['w']][0]( $logger, $sprite, $output );
+
+        $app = new Application( $logger, $reader, $layout, $writer );
+        $app->run();
+
+        return 0;
+    }
+
+    /**
+     * Extract the component default value and set the appropriate option if it
+     * is not already set
+     *
+     * Furthermore it is checked that an already present value is valid.
+     * 
+     * @param array $options 
+     * @param string $key 
+     * @param array $component 
+     * @return void
+     */
+    protected function componentDefault( &$options, $key, $component ) 
+    {
+        if ( isset( $options[$key] ) ) 
+        {
+            // No default needed. There is a value present.
+            if ( !isset( $component[$options[$key]] ) ) 
+            {
+                throw new \RuntimeException( "The component '{$options[$key]}' is not available." );
+            }
+            return;
+        }
+
+
+        $possibilities = array_keys( $component );
+        $default = reset( $possibilities );
+        $options[$key] = $default;
+    }
+
+    /**
+     * Return an array of all shortoptions defined. 
+     * 
+     * @return array
+     */
+    protected function getShortOptions() 
+    {
+        return implode( 
+            "",
+            array_map( 
+                function( $opt ) 
+                {
+                    return $opt[1];
+                },
+                $this->options 
+            )
+        );
+    }
+
+    /**
+     * Return an array of all longoptions defined. 
+     * 
+     * @return array
+     */
+    protected function getLongOptions() 
+    {
+        return array_map( 
+            function( $opt ) 
+            {
+                return $opt[2];
+            },
+            array_filter( 
+                $this->options,
+                function( $opt ) 
+                {
+                    return $opt[2] !== null;
+                }
+            )
+        );
+    }
+
+    /**
+     * Merge long and short options into one representation. 
+     *
+     * The merged representation will be the short option one, as long options
+     * are optional 
+     * 
+     * @param array $options 
+     * @return array
+     */
+    protected function mergeOptions( $options ) 
+    {
+        foreach( $this->options as $opt ) 
+        {
+            if ( $opt[2] === null ) 
+            {
+                // No long option exists for this entry therefore it can be
+                // skipped.
+                continue;
+            }
+
+            $shortOptKey = str_replace( ":", "", $opt[1] );
+            $longOptKey = str_replace( ":", "", $opt[2] );
+
+            if ( isset( $options[$longOptKey] ) && !isset( $options[$shortOptKey] ) ) 
+            {
+                $options[$shortOptKey] = $options[$longOptKey];
+            }
+        }
+        
+        return $options;
+    }
+
+    /**
+     * Get a list of arguments after the option list has been removed from it. 
+     * 
+     * @param array $options 
+     * @return array
+     */
+    protected function getCleanedArguments( $options ) 
+    {
+        $cutPosition = 0;
+        // Find the last occurance of an option
+        for( $i = count( $this->argv ) - 1; $i > 0; --$i ) 
+        {
+            if ( substr( $this->argv[$i], 0, 1 ) !== '-' ) 
+            {
+                // Argument is no option.
+                continue;
+            }
+
+            $optKey = explode( 
+                "=",
+                preg_replace( '(^(--|-))', '', $this->argv[$i] )
+            );
+
+            if ( isset( $options[$optKey[0]] ) ) 
+            {
+                // Last option found
+                // It may have a value
+                if ( $options[$optKey[0]] === false || isset( $optKey[1] ) ) 
+                {
+                    $cutPosition = $i;
+                }
+                else 
+                {
+                    $cutPosition = $i + 1;
+                }
+                break;
+            }
+        }
+
+
+        return array_merge( 
+            array( $this->argv[0] ),
+            array_slice( $this->argv, $cutPosition + 1 )
+        );
+    }
+
+    /**
+     * Print out a usage line as well as descriptive help text for every option. 
+     */
+    protected function printUsage() 
+    {
+        echo <<<END
+Usage:
+  {$this->argv[0]} [OPTION, ...] <input-definition> <output-sprite> <output-definition>
+
+Options: 
 
 END;
 
-    exit( 1 );
+        $this->printMap( 
+            $this->getOptionDescriptionMapping()
+        );
+
+        echo "\n";
+
+        foreach( array( 'reader', 'writer', 'layoutManager', 'renderer' ) as $component ) 
+        {
+            echo ucfirst( $component ), ":", "\n";
+
+            $this->printMap( 
+                $this->getComponentDescriptionMapping( 
+                    $this->$component 
+                )
+            );
+
+            echo "\n";
+        }
+    }
+
+    /**
+     * Printout a name => description map. 
+     * 
+     * @param array $mapping 
+     * @return void
+     */
+    protected function printMap( $map )
+    {
+        $nameMaxLength = $this->reduceToMaxLength( 
+            \array_keys( $map )
+        );
+        
+        foreach( $map as $name => $description ) 
+        {
+            echo $this->formatKeyValue( 
+                $name, 
+                $description, 
+                $nameMaxLength + 2, 
+                self::LINEWIDTH,
+                2
+            );
+            echo "\n";
+        }
+    }
+
+    /**
+     * Output a key value pair in a nicely formatted way.
+     * 
+     * Output which does not fit into the given lineLength is split up and
+     * indented to look nicely.
+     * 
+     * @param string $key 
+     * @param string $value 
+     * @param int $keyLength 
+     * @param int $lineLength 
+     * @param int $indentation 
+     * @return string
+     */
+    protected function formatKeyValue( $key, $value, $keyLength, $lineLength, $indentation = 0 ) 
+    {
+        $formatted = "";
+
+        $valueSplitPoint = $lineLength - $keyLength - $indentation;
+        $indentationString = \str_pad( "", $indentation, " " );
+        
+        $formatted = $indentationString . \str_pad( $key, $keyLength, " ", STR_PAD_RIGHT );
+    
+        $valueLines = \explode( "\n", wordwrap( $value, $valueSplitPoint, "\n" ) );
+        $formatted .= \array_shift( $valueLines ) . "\n";
+
+        foreach( $valueLines as $line ) 
+        {
+            $formatted .= \str_pad( 
+                $line,
+                $lineLength - ( $valueSplitPoint - strlen( $line ) ),
+                " ",
+                STR_PAD_LEFT
+            ) . "\n";
+        }
+
+        return $formatted;
+    }
+
+    /**
+     * Reduce an array to the number of characters in its largest field. 
+     * 
+     * @param array $input 
+     * @return int
+     */
+    protected function reduceToMaxLength( $input ) 
+    {
+        return \array_reduce( 
+            $input, 
+            function( $current, $value ) 
+            {
+                return \max( $current, strlen( $value ) );
+            },
+            0
+        );
+    }
+
+    /**
+     * Create an array mapping well formatted option names to their
+     * description. 
+     * 
+     * @return array
+     */
+    protected function getOptionDescriptionMapping() 
+    {
+        $mapping = array();
+        foreach( $this->options as $option ) 
+        {
+            $name = "-" . \str_replace( ":", "", $option[1] );
+
+            if ( $option[2] !== null ) 
+            {
+                $name .= '/--' . \str_replace( ":", "", $option[2] );
+            }
+
+            if ( \substr( $option[1], -1 ) === ":" ) 
+            {
+                $name .= "=<value>";
+            }
+
+            $mapping[$name] = $option[3];
+        }
+
+        return $mapping;
+    }
+
+    /**
+     * Get a mapping of formatted componentnames to their description. 
+     * 
+     * @param string $component 
+     * @return array
+     */
+    protected function getComponentDescriptionMapping( $component ) 
+    {
+        $mapping = array();
+
+        foreach( $component as $name => $info ) 
+        {
+            $mapping[$name . ':'] = $info[1];
+        }
+
+        return $mapping;
+    }
 }
 
-$input  = $argv[1];
-$output = $argv[2];
-$sprite = $argv[3];
-
-
-$logger = new Logger\Console( false );
-$renderer = new Renderer\GD( $logger, $sprite );
-$layout = new LayoutManager\ColorGroup( $logger, $renderer );
-
-$reader = new DefinitionReader\CssLike( $logger, $input );
-$writer = new DefinitionWriter\CssBackground( $logger, $sprite, $output );
-
-$app = new Application( $logger, $reader, $layout, $writer );
-$app->run();
+$cli = new CommandLineInterface( $argv );
+try 
+{
+    exit( $cli->run() );
+}
+catch( \RuntimeException $e ) 
+{
+    echo "[Error] ", $e->getMessage(), "\n\n";
+    exit( 1 );
+}
