@@ -118,7 +118,7 @@ class CssBackground
 
             $this->writeLine( 
                 sprintf( 
-                    "    background: transparent url( '%s' ) -%dpx -%dpx",
+                    "    background: transparent url( '%s' ) -%dpx -%dpx;",
                     $this->prefixedSprite,
                     $info[0][0],
                     $info[0][1]
