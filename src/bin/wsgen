@@ -30,7 +30,7 @@ class CommandLineInterface
     /**
      * Application name outputted on console for identification.
      */
-    const APP_NAME = "WebSpriteGeneration @VERSION@\n(c) 2010 Jakob Westhoff\n\n";
+    const APP_NAME = "WebSpriteGenerator @VERSION@\n(c) 2010 Jakob Westhoff\n\n";
 
     /**
      * Maximal line width to be used for splitting the text at. 
