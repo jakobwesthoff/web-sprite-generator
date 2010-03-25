@@ -37,6 +37,17 @@ class BasicArray
     protected $definition = null;
 
     /**
+     * As this reader uses require to load the php definition files it is 
+     * impossible to use php://STDIN 
+     * 
+     * @return bool
+     */
+    public function isStdinCapable() 
+    {
+        return false;
+    }
+
+    /**
      * Provide the mapping table between images and css rule names 
      *
      * A mapping table has the following format:

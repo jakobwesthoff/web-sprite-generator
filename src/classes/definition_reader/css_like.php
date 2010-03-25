@@ -43,6 +43,16 @@ class CssLike
     protected $definition = null;
 
     /**
+     * CSS like defintions can be read from STDIN as well. 
+     * 
+     * @return bool
+     */
+    public function isStdinCapable() 
+    {
+        return true;
+    }
+
+    /**
      * Provide the mapping table between images and css rule names 
      *
      * A mapping table has the following format:
@@ -81,7 +91,7 @@ class CssLike
      */
     protected function readFile( $file ) 
     {
-        if ( !file_exists( $file ) || !is_readable( $file ) ) 
+        if ( $file !== "php://STDIN" && ( !file_exists( $file ) || !is_readable( $file ) ) ) 
         {
             throw new \RuntimeException( "The provided definition file '$file' is not readable." );            
         }

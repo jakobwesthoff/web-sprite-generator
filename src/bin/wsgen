@@ -57,6 +57,14 @@ class CommandLineInterface
             false, "h", "help",
             "Show this help text"
         ),
+        array(
+            false, "o:", "output:",
+            "File to output the definition to. (By default it will be outputted to STDOUT)"
+        ),
+        array(
+            false, "i:", "input:",
+            "File to read the input definition from. (By default STDIN will be used)"
+        ),
         array( 
             false, "r:", "reader:", 
             "Definition reader to use for input processing. (Default: css-like)"
@@ -89,7 +97,7 @@ class CommandLineInterface
             ),
         'php-array' => 
             array( 
-                'org\\westhoffswelt\\wsgen\\DefinitionReader\\SimpleArray',
+                'org\\westhoffswelt\\wsgen\\DefinitionReader\\BasicArray',
                 "Reader of a php based array structure. See the README.txt for more information about this format."
             ),
     );
@@ -159,7 +167,7 @@ class CommandLineInterface
      */
     public function run() 
     {
-        echo self::APP_NAME;
+        fprintf( STDERR, self::APP_NAME );
 
         $options = $this->mergeOptions( 
             getopt( 
@@ -170,7 +178,7 @@ class CommandLineInterface
 
         $arguments = $this->getCleanedArguments( $options );
         
-        if ( isset( $options['h'] ) || count( $arguments ) < 4 ) 
+        if ( isset( $options['h'] ) || count( $arguments ) < 2 ) 
         {
             $this->printUsage();
             return 1;
@@ -181,11 +189,15 @@ class CommandLineInterface
         $this->componentDefault( $options, 'l', $this->layoutManager );
         $this->componentDefault( $options, 'e', $this->renderer );
 
-        $input  = $arguments[1];
-        $sprite = $arguments[2];
-        $output = $arguments[3];
+        $this->argumentDefault( $options, 'i', "php://STDIN" );
+        $this->argumentDefault( $options, 'o', "php://STDOUT" );
+        
+        $input  = $options['i'];
+        $output = $options['o'];
 
-        $logger = new Logger\Console( false );
+        $sprite = $arguments[1];
+
+        $logger = new Logger\Console( false, true );
         $renderer = new $this->renderer[$options['e']][0]( $logger, $sprite );
         $layout = new $this->layoutManager[$options['l']][0]( $logger, $renderer );
 
@@ -225,6 +237,24 @@ class CommandLineInterface
         $possibilities = array_keys( $component );
         $default = reset( $possibilities );
         $options[$key] = $default;
+    }
+
+    /**
+     * Ensure a certain option argument is set using a default value.
+     *
+     * If the option is not set the default value will be applied. 
+     * 
+     * @param array $options 
+     * @param string $key 
+     * @param mixed $default 
+     * @return void
+     */
+    protected function argumentDefault( &$options, $key, $default ) 
+    {
+        if ( !isset( $options[$key] ) ) 
+        {
+            $options[$key] = $default;
+        }
     }
 
     /**
@@ -351,23 +381,24 @@ class CommandLineInterface
      */
     protected function printUsage() 
     {
-        echo <<<END
+        fprintf( STDERR, <<<END
 Usage:
-  {$this->argv[0]} [OPTION, ...] <input-definition> <output-sprite> <output-definition>
+  {$this->argv[0]} [OPTION, ...] <output-sprite>
 
 Options: 
 
-END;
+END
+        );
 
         $this->printMap( 
             $this->getOptionDescriptionMapping()
         );
 
-        echo "\n";
+        fprintf( STDERR, "\n" );
 
         foreach( array( 'reader', 'writer', 'layoutManager', 'renderer' ) as $component ) 
         {
-            echo ucfirst( $component ), ":", "\n";
+            fprintf( STDERR, ucfirst( $component ) . ":" . "\n" );
 
             $this->printMap( 
                 $this->getComponentDescriptionMapping( 
@@ -375,7 +406,7 @@ END;
                 )
             );
 
-            echo "\n";
+            fprintf( STDERR, "\n" );
         }
     }
 
@@ -393,14 +424,17 @@ END;
         
         foreach( $map as $name => $description ) 
         {
-            echo $this->formatKeyValue( 
-                $name, 
-                $description, 
-                $nameMaxLength + 2, 
-                self::LINEWIDTH,
-                2
+            fprintf( 
+                STDERR, 
+                $this->formatKeyValue( 
+                    $name, 
+                    $description, 
+                    $nameMaxLength + 2, 
+                    self::LINEWIDTH,
+                    2
+                )
             );
-            echo "\n";
+            fprintf( STDERR, "\n" );
         }
     }
 
@@ -515,6 +549,6 @@ try
 }
 catch( \RuntimeException $e ) 
 {
-    echo "[Error] ", $e->getMessage(), "\n\n";
+    fprintf( STDERR, "[Error] " . $e->getMessage() . "\n\n" );
     exit( 1 );
 }

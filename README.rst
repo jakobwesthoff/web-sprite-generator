@@ -85,14 +85,20 @@ given.
 After calling the ``wsgen`` executable a quite sophisticated help text is
 displayed::
 
-    WebSpriteGenerator 
+    WebSpriteGenerator
     (c) 2010 Jakob Westhoff
 
     Usage:
-      wsgen [OPTION, ...] <input-definition> <output-sprite> <output-definition>
+      ./src/bin/wsgen [OPTION, ...] <output-sprite>
 
     Options: 
       -h/--help                    Show this help text
+
+      -o/--output=<value>          File to output the definition to. (By default it
+                                   will be outputted to STDOUT)
+
+      -i/--input=<value>           File to read the input definition from. (By
+                                   default STDIN will be used)
 
       -r/--reader=<value>          Definition reader to use for input processing.
                                    (Default: css-like)
@@ -143,12 +149,19 @@ Every component does have a default implementation pre-selected in case a
 special one is not selected. Therefore the easiest way to call the wsgen
 commandline interface is something like this::
 
-    bin/wsgen input.cfg sprite.png sprite-definition.css
+    bin/wsgen -i input.cfg -o sprite-definition.css sprite.png
 
 The commandline shown above instructs wsg to read a file called ``input.cfg``
 as input definition to create a sprite image called ``sprite.png`` containing
 all of the images defined in there. Furthermore a sprite definition will be
 written to the file ``sprite-definition.css``.
+
+The ``-i`` and ``-o`` switches are optional if they are not supplied STDIN is
+used for input and STDOUT for output respectively. Status messages are always
+printed to STDERR.
+
+Some of the definition readers are not capable of reading from STDIN. They will
+return an error if these kind of processing is tried.
 
 By default the input definition is assumed to be in a css-like format (Detailed
 in `CSS-Like DefinitionReader`_), the sprite is rendered using the GD library

@@ -55,7 +55,22 @@ abstract class DefinitionReader
     {
         $this->logger    = $logger;
         $this->inputFile = $definition;
+
+        if ( !$this->isStdinCapable() && $definition === "php://STDIN" ) 
+        {
+            throw new \RuntimeException( "The used definition reader does not support input from STDIN." );
+        }
     }
+    
+    /**
+     * Returns wheter the reader is capable of accepting php://STDIN as file 
+     * input.
+     *
+     * There may be readers, which aren't capable of handling this for 
+     * technical reasons. If it is somehow possible to handle this it should be 
+     * done. 
+     */
+    public abstract function isStdinCapable(); 
 
     /**
      * Provide the mapping table between images and css definitions 
