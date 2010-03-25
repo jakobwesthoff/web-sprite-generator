@@ -4,6 +4,7 @@ $namespace = "org\\westhoffswelt\\wsgen";
 return array(  
     $namespace . '\\DefinitionReader'                       => 'classes/definition_reader.php',
     $namespace . '\\DefinitionReader\\BasicArray'           => 'classes/definition_reader/basic_array.php',
+    $namespace . '\\DefinitionReader\\Directory'            => 'classes/definition_reader/directory.php',
     $namespace . '\\DefinitionReader\\CssLike'              => 'classes/definition_reader/css_like.php',
     $namespace . '\\DefinitionReader\\CssLike\\Token'       => 'classes/definition_reader/css_like/token.php',
     $namespace . '\\DefinitionReader\\CssLike\\Tokenizer'   => 'classes/definition_reader/css_like/tokenizer.php',

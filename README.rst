@@ -181,7 +181,7 @@ implementations listed in the corresponding section of the help text.
 For example to use the `Vertical LayoutManager`_ instead of the default
 `Color-Group LayoutManager`_ the following commandline could be issued::
 
-    bin/wsgen --layout-manager=vertical input.cfg sprite.png sprite-definition.css
+    bin/wsgen --layout-manager=vertical -i input.cfg -o sprite-definition.css sprite.png
 
 
 Components
@@ -287,6 +287,21 @@ connected to one image as far as these rules are splitted by a comma (``,``).
 
 All newlines and spaces are optional and may be left out or added in any amount
 the author considers necessary.
+
+
+Directory DefinitionReader
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ``Directory DefinitionReader`` allows to use the directory structure of a
+directory filled with image files as input definition.
+
+It is capable of reading a pattern which is understood by php's ``glob``
+function.
+
+The used CSS selectors for the output definition are derived from the scanned
+filenames. These filenames are normalized and outputted as CSS class selectors.
+The normalization process does replace any character not matching the character
+group ``[A-Za-z0-9-]`` by a minus sign (``-``).
 
 
 LayoutManager
