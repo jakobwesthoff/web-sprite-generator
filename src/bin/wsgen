@@ -100,6 +100,11 @@ class CommandLineInterface
                 'org\\westhoffswelt\\wsgen\\DefinitionReader\\BasicArray',
                 "Reader of a php based array structure. See the README.txt for more information about this format."
             ),
+        'directory' => 
+            array( 
+                'org\\westhoffswelt\\wsgen\\DefinitionReader\\Directory',
+                "Reader for a file pattern, as accepted by glob, like 'subdir/*.png'."
+            ),
     );
 
     /**
