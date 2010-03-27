@@ -33,7 +33,7 @@ class Classifier
      * Quadratic threshold which mapped colors between pictures may have and
      * still be considered equal colored.
      */
-    const INTER_PICTURE_THRESHOLD = 64;
+    const INTER_PICTURE_THRESHOLD = 512;
 
     /**
      * Quadratic threshold which different colors in one picture may have and

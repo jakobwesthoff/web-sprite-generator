@@ -103,7 +103,7 @@ class ColorGroup
         {
             $images = $class['images'];
             $this->sortMetaImagesByHeight( $images );
-            list( $rowHeight ) = $images[0]->getResolution();
+            list( , $rowHeight ) = $images[0]->getResolution();
             $currentX = 0;
             foreach( $images as $image ) 
             {
